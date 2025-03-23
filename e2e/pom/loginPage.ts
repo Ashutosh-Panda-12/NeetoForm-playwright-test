@@ -16,7 +16,5 @@ export class LoginPage {
   }
 
   verifyLogin = expect(this.page.getByTestId(LOGIN_SELECTORS.profileAvatar)).toBeVisible;
-
-  saveStorageState = this.page.context().storageState({ path: STORAGE_STATE });
-
+  
 }

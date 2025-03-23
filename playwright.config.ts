@@ -16,9 +16,9 @@ export default defineConfig({
   workers: process.env.CI ? 1 : undefined,
 
   reporter: 'html',
-  timeout: 2 * 60 * 1000,
+  timeout: 60 * 1000,
   expect: {
-    timeout: 10*1000,
+    timeout: 15*1000,
   },
   use: {
     trace: 'on',
