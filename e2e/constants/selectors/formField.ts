@@ -1,0 +1,13 @@
+export const FORM_FIELD_SELECTORS = {
+  singleChoiceElement: 'add-single-choice-element',
+  multipleChoicePreviewGroup: 'multiple-choice-preview-group',
+  singleChoiceOptionsContainer: 'single-choice-options-container',
+  multipleChoiceOptionsContainer: 'multi-choice-options-container',
+  bulkOptionsLink: 'add-bulk-option-link',
+  bulkOptionsTextarea: 'bulk-add-options-textarea',
+  bulkSubmitButton: 'bulk-add-options-done-button',
+  randomizeLabel: 'randomize-switch-label',
+  hideQuestion: 'hide-question-toggle-label',
+  singleOptionContainer: 'single-choice-option',
+  multipleChoiceOption: 'multi-choice-option',
+}
