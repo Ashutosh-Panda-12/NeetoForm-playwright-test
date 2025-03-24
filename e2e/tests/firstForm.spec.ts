@@ -1,15 +1,18 @@
 import { Page } from "@playwright/test";
 import { test } from "../fixtures";
 import { faker } from "@faker-js/faker";
+import { CreateForm } from "../pom/createForm";
 
 test.describe("Create a new form", async() => {
 
   let page1: Page;
+  let page2: Page;
   let randomNumber: string;
   let randomEmail: string;
   let firstName: string;
   let lastName: string;
   let randomName: string;
+  let newPage: CreateForm;
 
   test.beforeEach(({createForm}) =>{
     randomName = faker.person.fullName();
@@ -29,25 +32,25 @@ test.describe("Create a new form", async() => {
       await createForm.publishForm();
       await createForm.previewForm();
       page1 = await page.waitForEvent('popup');
+      newPage = new CreateForm(page1);
     })
 
-    await test.step("Step 5: Check if all the fields are visible",() => createForm.checkIfFieldsAreVisible({page: page1}));
+    await test.step("Step 5: Check if all the fields are visible",() => newPage.checkIfFieldsAreVisible());
 
-    await test.step("Step 6: Make sure that the fields show error when filled invalid emails or phone numbers",() => createForm.checkIfInvalidValuesAreChecked({page: page1}, randomName, randomNumber));
+    await test.step("Step 6: Make sure that the fields show error when filled invalid emails or phone numbers",() => newPage.checkIfInvalidValuesAreChecked(randomName, randomNumber));
 
     await test.step("Step 7: Click the form button without a and make sure that all the fields show error", async() => {
-      await page1.close();
       await createForm.previewForm();
-      page1 = await page.waitForEvent('popup');
-      await createForm.submitFormButton({page: page1});
-      await createForm.checkErrorsAreBeingShown({page: page1});
+      page2 = await page.waitForEvent('popup');
+      newPage = new CreateForm(page2);
+      await newPage.submitFormButton();
+      await newPage.checkErrorsAreBeingShown();
     });
 
     await test.step("Step 8: Fill the form with valid credentials and submit the form", async() => {
-      await createForm.fillTheFormUsingSuitableValues({page: page1}, randomEmail, firstName, lastName);
-      await createForm.submitFormButton({page: page1});
-      await createForm.verifyThankYouMessage({page: page1});
-      page1.close();
+      await newPage.fillTheFormUsingSuitableValues(randomEmail, firstName, lastName);
+      await newPage.submitFormButton();
+      await newPage.verifyThankYouMessage();
       await createForm.verifySubmissions();
     })
   })

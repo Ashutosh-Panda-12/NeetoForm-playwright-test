@@ -20,46 +20,52 @@ export class CreateForm {
     await this.page.getByTestId(CREATE_FORM_SELECTORS.elementsContainer).getByTestId(CREATE_FORM_SELECTORS.phoneNumberElement).click();
   }
 
-  publishForm =() => this.page.getByTestId(CREATE_FORM_SELECTORS.publishButton).click();
+  publishForm = async() =>{
+    await this.page.getByTestId(CREATE_FORM_SELECTORS.publishButton).click();
+    await expect(this.page.getByTestId(CREATE_FORM_SELECTORS.publishButton)).toBeDisabled();
+  }
 
-  previewForm =() => this.page.getByTestId(CREATE_FORM_SELECTORS.publishPreviewButton).click();
+  previewForm = async() =>{
+   await this.page.getByTestId(CREATE_FORM_SELECTORS.publishPreviewButton).waitFor();
+   await this.page.getByTestId(CREATE_FORM_SELECTORS.publishPreviewButton).click();
+  }
 
-  checkIfFieldsAreVisible = async({page}:{page: Page}) => {
+  checkIfFieldsAreVisible = async() => {
     await Promise.all([
-      expect(page.getByTestId(CREATE_FORM_SELECTORS.emailGroup)).toBeVisible(),
-      expect(page.getByTestId(CREATE_FORM_SELECTORS.fullNameGroup)).toBeVisible(),
-      expect(page.getByTestId(CREATE_FORM_SELECTORS.phoneNumberGroup)).toBeVisible(),
-      expect(page.getByTestId(CREATE_FORM_SELECTORS.submitButton)).toBeVisible(),
+      expect(this.page.getByTestId(CREATE_FORM_SELECTORS.emailGroup)).toBeVisible(),
+      expect(this.page.getByTestId(CREATE_FORM_SELECTORS.fullNameGroup)).toBeVisible(),
+      expect(this.page.getByTestId(CREATE_FORM_SELECTORS.phoneNumberGroup)).toBeVisible(),
+      expect(this.page.getByTestId(CREATE_FORM_SELECTORS.submitButton)).toBeVisible(),
     ]);
   }
 
-  checkIfInvalidValuesAreChecked = async({page}: {page: Page}, randomName, randomNumber) => {
-    await page.getByTestId(CREATE_FORM_SELECTORS.emailTextField).fill(randomName);
-    await page.getByTestId(CREATE_FORM_SELECTORS.phoneNumberInputField).fill(randomNumber);
-    await page.getByTestId(CREATE_FORM_SELECTORS.startOrSubmitButton).click();
-    await expect(page.getByTestId(CREATE_FORM_SELECTORS.emailGroup).getByTestId(CREATE_FORM_SELECTORS.formErrorText)).toBeVisible();
-    await expect(page.getByTestId(CREATE_FORM_SELECTORS.phoneGroup).getByTestId(CREATE_FORM_SELECTORS.formErrorText)).toBeVisible();
+  checkIfInvalidValuesAreChecked = async(randomName, randomNumber) => {
+    await this.page.getByTestId(CREATE_FORM_SELECTORS.emailTextField).fill(randomName);
+    await this.page.getByTestId(CREATE_FORM_SELECTORS.phoneNumberInputField).fill(randomNumber);
+    await this.page.getByTestId(CREATE_FORM_SELECTORS.startOrSubmitButton).click();
+    await expect(this.page.getByTestId(CREATE_FORM_SELECTORS.emailGroup).getByTestId(CREATE_FORM_SELECTORS.formErrorText)).toBeVisible();
+    await expect(this.page.getByTestId(CREATE_FORM_SELECTORS.phoneGroup).getByTestId(CREATE_FORM_SELECTORS.formErrorText)).toBeVisible();
   }
 
-  submitFormButton = ({page}: {page: Page}) => page.getByTestId(CREATE_FORM_SELECTORS.startOrSubmitButton).click();
+  submitFormButton = () => this.page.getByTestId(CREATE_FORM_SELECTORS.startOrSubmitButton).click();
 
-  checkErrorsAreBeingShown = async({page}: {page: Page}) => {
+  checkErrorsAreBeingShown = async() => {
     await Promise.all([
-      expect(page.getByTestId(CREATE_FORM_SELECTORS.emailGroup).getByTestId(CREATE_FORM_SELECTORS.formErrorText)).toBeVisible(),
-      expect(page.getByTestId(CREATE_FORM_SELECTORS.fullNameFields).getByTestId(CREATE_FORM_SELECTORS.formErrorText).filter({hasText: CREATE_FORM_TEXTS.firstName})).toBeVisible(),
-      expect(page.getByRole("paragraph").filter({hasText: CREATE_FORM_TEXTS.lastName})).toBeVisible(),
-      expect(page.getByTestId(CREATE_FORM_SELECTORS.phoneGroup).getByTestId(CREATE_FORM_SELECTORS.formErrorText)).toBeVisible(),
+      expect(this.page.getByTestId(CREATE_FORM_SELECTORS.emailGroup).getByTestId(CREATE_FORM_SELECTORS.formErrorText)).toBeVisible(),
+      expect(this.page.getByTestId(CREATE_FORM_SELECTORS.fullNameFields).getByTestId(CREATE_FORM_SELECTORS.formErrorText).filter({hasText: CREATE_FORM_TEXTS.firstName})).toBeVisible(),
+      expect(this.page.getByRole("paragraph").filter({hasText: CREATE_FORM_TEXTS.lastName})).toBeVisible(),
+      expect(this.page.getByTestId(CREATE_FORM_SELECTORS.phoneGroup).getByTestId(CREATE_FORM_SELECTORS.formErrorText)).toBeVisible(),
     ]);
   }
 
-  fillTheFormUsingSuitableValues = async({page}: {page: Page}, randomEmail: string, firstName: string, lastName: string) => {
-    await page.getByTestId(CREATE_FORM_SELECTORS.emailTextField).fill(randomEmail);
-    await page.getByTestId(CREATE_FORM_SELECTORS.firstNameTextField).fill(firstName);
-    await page.getByTestId(CREATE_FORM_SELECTORS.lastNameTextField).fill(lastName);
-    await page.getByTestId(CREATE_FORM_SELECTORS.phoneNumberInputField).fill(CREATE_FORM_TEXTS.phoneNumberInput);
+  fillTheFormUsingSuitableValues = async(randomEmail: string, firstName: string, lastName: string) => {
+    await this.page.getByTestId(CREATE_FORM_SELECTORS.emailTextField).fill(randomEmail);
+    await this.page.getByTestId(CREATE_FORM_SELECTORS.firstNameTextField).fill(firstName);
+    await this.page.getByTestId(CREATE_FORM_SELECTORS.lastNameTextField).fill(lastName);
+    await this.page.getByTestId(CREATE_FORM_SELECTORS.phoneNumberInputField).fill(CREATE_FORM_TEXTS.phoneNumberInput);
   }
 
-  verifyThankYouMessage = ({page}: {page: Page}) => expect(page.getByTestId(CREATE_FORM_SELECTORS.thankYouMessage)).toBeVisible();
+  verifyThankYouMessage = () => expect(this.page.getByTestId(CREATE_FORM_SELECTORS.thankYouMessage)).toBeVisible();
 
   verifySubmissions = async() => {
     await this.page.getByTestId(CREATE_FORM_SELECTORS.submissionsTab).click();
