@@ -51,6 +51,7 @@ test.describe("Create a new form", async() => {
       await newPage.fillTheFormUsingSuitableValues(randomEmail, firstName, lastName);
       await newPage.submitFormButton();
       await newPage.verifyThankYouMessage();
+      await createForm.goToSubmissions();
       await createForm.verifySubmissions();
     })
   })

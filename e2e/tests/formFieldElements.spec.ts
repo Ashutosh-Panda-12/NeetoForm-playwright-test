@@ -2,10 +2,10 @@ import { expect, Page } from "@playwright/test";
 import { test } from "../fixtures";
 import { FORM_FIELD_SELECTORS } from "../constants/selectors/formField";
 import { FormFieldElements } from "../pom/formFieldElements";
+import { CREATE_FORM_SELECTORS } from "../constants/selectors/createForm";
 
 
 test.describe("Customize field form elements", async() => {
-
   let page1: Page;
   let page2: Page;
   let newPage: FormFieldElements;
@@ -22,23 +22,21 @@ test.describe("Customize field form elements", async() => {
 
     await test.step("Step 3: Add single choice elements", formFieldElements.addSingleChoiceElements);
 
-    await test.step("Step 6: Add multiple choice elements", formFieldElements.addMultipleChoiceElements);
+    await test.step("Step 4: Add multiple choice elements", formFieldElements.addMultipleChoiceElements);
 
-    await test.step("Step 6: Add options to multiple choice", async() => {
+    await test.step("Step 5: Add options to multiple choice", async() => {
       await formFieldElements.clickMultiChoiceButton();
       await formFieldElements.addOptionsForMultipleChoice();
+      await expect(page.getByTestId(FORM_FIELD_SELECTORS.multipleChoiceOption)).toHaveCount(10);
     });
 
-    await test.step("Step 7: Hide the multiple choice element", formFieldElements.hideQuestion);
-
-    await test.step("Step 4: Add options to the single choice element", async() => {
+    await test.step("Step 7: Add options to the single choice element", async() => {
       await formFieldElements.clickSingleChoiceButton();
       await formFieldElements.addOptionsForSingleChoice();
+      await expect(page.getByTestId(FORM_FIELD_SELECTORS.singleOptionContainer)).toHaveCount(10);
     });
 
-    await test.step("Step 5: Randomize the options",formFieldElements.randomizeOptions);
-
-    await test.step("Step 8: Publish and preview the form", async() => {
+    await test.step("Step 9: Publish and preview the form", async() => {
       await createForm.publishForm();
       await createForm.previewForm();
       page1 = await page.waitForEvent('popup');
@@ -46,27 +44,27 @@ test.describe("Customize field form elements", async() => {
     });
 
 
-    await test.step("Step 9: Ensure that single options are randomized",() => newPage.isRandomized(originalArr));
+    await test.step("Step 10: Ensure that single options are randomized",() => newPage.isRandomized(originalArr));
 
-    await test.step("Step 10: Ensure multiple choice options are hidden",() => newPage.isHidden());
+    await test.step("Step 11: Ensure multiple choice options are hidden",() => newPage.isHidden());
 
-    await test.step("Step 11: Uncheck the hide option and publish and preview the form", formFieldElements.clickMultiChoiceButton);
+    await test.step("Step 12: Uncheck the hide option and publish and preview the form", formFieldElements.clickMultiChoiceButton);
 
-    await test.step("Step 12: Unhide the form", formFieldElements.hideQuestion);
+    await test.step("Step 13: Unhide the form", formFieldElements.hideQuestion);
 
-    await test.step("Step 13: Fill the form", async() => {
+    await test.step("Step 14: Fill the form", async() => {
       await createForm.publishForm();
       await createForm.previewForm();
       page2 = await page.waitForEvent('popup');
       newPage = new FormFieldElements(page2);
     })
 
-    await test.step("Step 14: Verify that multi-choice element is visible",() => formFieldElements.isVisible());
+    await test.step("Step 15: Verify that multi-choice element is visible",() => formFieldElements.isVisible());
 
   })
 
   test.afterEach(async({createForm}) => {
-    await test.step("Step 15: Delete the form", createForm.deleteForm);
+    await test.step("Step 16::  Delete the form", createForm.deleteForm);
   })
 
 })

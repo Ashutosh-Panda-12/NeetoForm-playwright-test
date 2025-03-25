@@ -21,6 +21,7 @@ export class CreateForm {
   }
 
   publishForm = async() =>{
+    await expect(this.page.getByTestId(CREATE_FORM_SELECTORS.publishButton)).toBeEnabled();
     await this.page.getByTestId(CREATE_FORM_SELECTORS.publishButton).click();
     await expect(this.page.getByTestId(CREATE_FORM_SELECTORS.publishButton)).toBeDisabled();
   }
@@ -67,8 +68,9 @@ export class CreateForm {
 
   verifyThankYouMessage = () => expect(this.page.getByTestId(CREATE_FORM_SELECTORS.thankYouMessage)).toBeVisible();
 
+  goToSubmissions =() => this.page.getByTestId(CREATE_FORM_SELECTORS.submissionsTab).click();
+
   verifySubmissions = async() => {
-    await this.page.getByTestId(CREATE_FORM_SELECTORS.submissionsTab).click();
     await expect(this.page.getByTestId(CREATE_FORM_SELECTORS.submissionCountLabel)).toHaveText(CREATE_FORM_TEXTS.singleElementText);
   }
 

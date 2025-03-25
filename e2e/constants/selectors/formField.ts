@@ -10,4 +10,6 @@ export const FORM_FIELD_SELECTORS = {
   hideQuestion: 'hide-question-toggle-label',
   singleOptionContainer: 'single-choice-option',
   multipleChoiceOption: 'multi-choice-option',
+  choicesCard: 'choices-options-card',
+  spinner: 'neeto-ui-spinner',
 }
