@@ -3,12 +3,14 @@ import { LoginPage } from "../pom/loginPage";
 import { CreateForm } from "../pom/createForm";
 import { FormFieldElements } from "../pom/formFieldElements";
 import { FormInsights } from "../pom/formInsights";
+import { AccessControl } from "../pom/accessControl";
 
 interface Fixtures {
   loginPage: LoginPage;
   createForm: CreateForm;
   formFieldElements: FormFieldElements;
   formInsights: FormInsights;
+  accessControl: AccessControl;
 }
 
 export const test = base.extend<Fixtures>({
@@ -30,6 +32,11 @@ export const test = base.extend<Fixtures>({
   formInsights: async({page}, use) => {
     const formInsights = new FormInsights(page);
     await use(formInsights);
+  },
+
+  accessControl: async({page}, use) => {
+    const accessControl = new AccessControl(page);
+    await use(accessControl);
   }
 
 })

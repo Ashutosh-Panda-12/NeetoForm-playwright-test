@@ -7,13 +7,10 @@ export class FormFieldElements {
 
   constructor(private page: Page) {};
 
-  addSingleChoiceElements = async() => {
-    await this.page.getByTestId(FORM_FIELD_SELECTORS.singleChoiceElement).click();
-  }
+  addSingleChoiceElements = () => this.page.getByTestId(FORM_FIELD_SELECTORS.singleChoiceElement).click();
 
-  addMultipleChoiceElements = async() => {
-    await this.page.getByRole("button", {name: FORM_FIELD_TEXT.multiChoice}).click();
-  }
+
+  addMultipleChoiceElements = () => this.page.getByRole("button", {name: FORM_FIELD_TEXT.multiChoice}).click();
 
   clickSingleChoiceButton =() => this.page.getByTestId(FORM_FIELD_SELECTORS.multipleChoicePreviewGroup).getByTestId(FORM_FIELD_SELECTORS.singleChoiceOptionsContainer).click();
 
