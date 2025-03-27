@@ -5,6 +5,7 @@ import { FormFieldElements } from "../pom/formFieldElements";
 import { FormInsights } from "../pom/formInsights";
 import { AccessControl } from "../pom/accessControl";
 import { UniqueSubmission } from "../pom/uniqueSubmissions";
+import { ConditionalLogic } from "../pom/conditionalLogic";
 
 interface Fixtures {
   loginPage: LoginPage;
@@ -13,6 +14,7 @@ interface Fixtures {
   formInsights: FormInsights;
   accessControl: AccessControl;
   uniqueSubmissions: UniqueSubmission;
+  conditionalLogic: ConditionalLogic;
 }
 
 export const test = base.extend<Fixtures>({
@@ -44,6 +46,11 @@ export const test = base.extend<Fixtures>({
   uniqueSubmissions: async({page}, use) => {
     const uniqueSubmissions = new UniqueSubmission(page);
     await use(uniqueSubmissions);
+  },
+
+  conditionalLogic: async({page}, use) => {
+    const conditionalLogic = new ConditionalLogic(page);
+    await use(conditionalLogic);
   }
 
 })
