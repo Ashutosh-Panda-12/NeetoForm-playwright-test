@@ -47,7 +47,7 @@ test.describe("Apply conditional logic to the NeetoForm", async() => {
   })
 
   test.afterEach(async({createForm}) => {
-    await test.step("Delete the form", createForm.deleteForm);
+    await test.step("Step 8: Delete the form", createForm.deleteForm);
   })
 
 })
