@@ -59,7 +59,7 @@ test.describe("Customize field form elements", async() => {
       newPage = new FormFieldElements(page2);
     })
 
-    await test.step("Step 15: Verify that multi-choice element is visible",() => formFieldElements.isVisible());
+    await test.step("Step 15: Verify that multi-choice element is visible", () => newPage.isVisible());
 
   })
 

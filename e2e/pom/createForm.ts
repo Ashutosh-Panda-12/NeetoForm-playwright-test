@@ -76,7 +76,7 @@ export class CreateForm {
 
   deleteForm = async() => {
     await this.page.getByTestId(CREATE_FORM_SELECTORS.navigationHeaderBlock).getByTestId(CREATE_FORM_SELECTORS.dropdownIcon).click();
-    await this.page.getByTestId(CREATE_FORM_SELECTORS.formDeleteButton).click();
+    await this.page.getByTestId(CREATE_FORM_SELECTORS.dropdownContainer).getByTestId(CREATE_FORM_SELECTORS.formDeleteButton).click();
     await this.page.getByTestId(CREATE_FORM_SELECTORS.deleteCheckbox).click();
     await this.page.getByTestId(CREATE_FORM_SELECTORS.deleteButton).click();
   }

@@ -4,6 +4,7 @@ import { CreateForm } from "../pom/createForm";
 import { FormFieldElements } from "../pom/formFieldElements";
 import { FormInsights } from "../pom/formInsights";
 import { AccessControl } from "../pom/accessControl";
+import { UniqueSubmission } from "../pom/uniqueSubmissions";
 
 interface Fixtures {
   loginPage: LoginPage;
@@ -11,6 +12,7 @@ interface Fixtures {
   formFieldElements: FormFieldElements;
   formInsights: FormInsights;
   accessControl: AccessControl;
+  uniqueSubmissions: UniqueSubmission;
 }
 
 export const test = base.extend<Fixtures>({
@@ -37,6 +39,11 @@ export const test = base.extend<Fixtures>({
   accessControl: async({page}, use) => {
     const accessControl = new AccessControl(page);
     await use(accessControl);
+  },
+
+  uniqueSubmissions: async({page}, use) => {
+    const uniqueSubmissions = new UniqueSubmission(page);
+    await use(uniqueSubmissions);
   }
 
 })

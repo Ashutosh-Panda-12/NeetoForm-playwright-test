@@ -26,4 +26,5 @@ export const CREATE_FORM_SELECTORS = {
   formDeleteButton: 'form-delete-button',
   deleteCheckbox: 'delete-archive-alert-archive-checkbox',
   deleteButton: 'delete-archive-alert-delete-button',
+  dropdownContainer: 'nui-dropdown-container',
 }

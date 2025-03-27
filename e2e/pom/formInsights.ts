@@ -6,10 +6,7 @@ export class FormInsights {
 
   constructor(private page: Page) {}
 
-  goToAnalytics = async() => {
-    await this.page.getByTestId(FORM_INSIGHTS_SELECTORS.moreTab).click();
-    await this.page.getByTestId(FORM_INSIGHTS_SELECTORS.moreDropdownContainer).getByTestId(FORM_INSIGHTS_SELECTORS.analyticsTab).click();
-  }
+  goToAnalytics = () => this.page.getByTestId(FORM_INSIGHTS_SELECTORS.analyticsTab).click();
 
   checkAnalytics = async(visits:number, starts: number, submissions: number, completion: number) => {
     await Promise.all([

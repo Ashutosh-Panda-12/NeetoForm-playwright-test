@@ -29,7 +29,6 @@ export class AccessControl {
 
     await this.page.context().clearPermissions();
 
-    console.log("Copied URL:", copiedText);
     return copiedText;
   }
 
