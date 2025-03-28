@@ -1,59 +1,39 @@
 import {  expect, Page } from "@playwright/test";
 import { CONDITIONAL_LOGIC_SELECTORS } from "../constants/selectors/conditionalLogic";
 import { CONDITIONAL_LOGIC_TEXTS } from "../constants/texts/conditionalLogic";
-import { CREATE_FORM_TEXTS } from "../constants/texts/createForm";
-import { CREATE_FORM_SELECTORS } from "../constants/selectors/createForm";
 
 export class ConditionalLogic {
   constructor(private page: Page) {}
 
   addSingleChoiceElement =() => this.page.getByTestId(CONDITIONAL_LOGIC_SELECTORS.singleChoiceElement).click();
 
-  // makeSingleChoiceAsTheFirstElement = async() => {
-  //   await this.page.getByTestId(CONDITIONAL_LOGIC_SELECTORS.summaryButton).click();
-  //   const target = this.page.getByRole("button", {name: CONDITIONAL_LOGIC_TEXTS.emailAddress});
-  //   const source = this.page.getByRole("button", {name: CONDITIONAL_LOGIC_TEXTS.singleChoiceOption});
-  //   await source.scrollIntoViewIfNeeded();
-  //   await target.scrollIntoViewIfNeeded();
-  //   await source.dragTo(target);
-  // }
+  makeSingleChoiceAsTheFirstElement = async () => {
+    await this.page.getByTestId(CONDITIONAL_LOGIC_SELECTORS.summaryButton).click();
 
-  makeSingleChoiceAsTheFirstElement = async() => {
-  const client = await this.page.context().newCDPSession(this.page);
+    const source = await this.page.getByRole("button", { name: CONDITIONAL_LOGIC_TEXTS.emailAddress });
+    const target = await this.page.getByRole("button", { name: CONDITIONAL_LOGIC_TEXTS.singleChoiceOption });
 
-        await client.send('Emulation.setCPUThrottlingRate', { rate: 4 });
-        await client.send('Network.emulateNetworkConditions', {
-          offline: false,
-          latency: 1000,
-          downloadThroughput: 500 * 1024,
-          uploadThroughput: 500 * 1024,
-        });
+    await source.waitFor({state: "visible"});
+    await target.waitFor({state: "visible"});
 
-        const start = this.page.getByTestId(CONDITIONAL_LOGIC_SELECTORS.multipleChoicePreviewGroup);
-        const end = this.page.getByTestId(CONDITIONAL_LOGIC_SELECTORS.emailAddressGroup);
-        const box = await start.boundingBox();
-        if (box) {
-            const startX = box.x + box.width / 2;
-            const startY = box.y + box.height / 2;
-            const endY = startY - 100;
-            await this.page.mouse.move(startX, startY);
-            await this.page.mouse.down();
-            await this.page.mouse.move(startX, endY, { steps: 10 });
-            await this.page.mouse.up();
-        }
+    const sourceBox = await source.boundingBox();
+    const targetBox = await target.boundingBox();
 
-        await expect(this.page.getByTestId(CREATE_FORM_SELECTORS.publishButton)).toBeDisabled();
-        await expect(this.page.getByTestId(CREATE_FORM_SELECTORS.publishButton)).toBeEnabled();
+    if (!sourceBox || !targetBox) {
+        throw new Error("Source or Target bounding box not found!");
+    }
 
-        await client.send('Emulation.setCPUThrottlingRate', { rate: 1 });
-        await client.send('Network.emulateNetworkConditions', {
-          offline: false,
-          latency: 0,
-          downloadThroughput: -1,
-          uploadThroughput: -1,
-        });
+    await this.page.mouse.move(targetBox.x + targetBox.width / 2, targetBox.y + targetBox.height / 2);
+    await this.page.mouse.down();
 
-  }
+    const targetX = sourceBox.x + sourceBox.width / 2;
+    const targetY = sourceBox.y - 20;
+
+    await this.page.mouse.move(targetX, targetY, { steps: 5 });
+    await this.page.mouse.up();
+  };
+
+
 
   removeOptionsFromSingleChoice =async() =>{
    await this.page.getByTestId(CONDITIONAL_LOGIC_SELECTORS.singleChoiceOptionContainer).click();

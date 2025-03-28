@@ -1,5 +1,6 @@
 export const CONDITIONAL_LOGIC_TEXTS = {
-  fieldSelectPlaceholder: 'Select a field',
+  emailAddress: 'Email address',
+  singleChoiceOption: 'Type a question',
   yes: 'Yes',
   no: 'No',
 }
